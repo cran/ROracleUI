@@ -6,7 +6,7 @@
   \code{POSIXct}, and perform the coercion where appropriate.
 }
 \usage{
-\method{as.POSIXct}{data.frame}(x, ...)
+\method{as.POSIXct}{data.frame}(x, \dots)
 }
 \arguments{
   \item{x}{data frame, possibly containing columns that can be coerced
@@ -17,7 +17,6 @@
   A data frame like \code{x}, except some of the columns may have been
   coerced to class \code{POSIXct}.
 }
-\author{Arni Magnusson}
 \note{
   A column must pass three sequential tests before being coerced:
   \enumerate{

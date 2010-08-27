@@ -3,8 +3,8 @@
 \title{Describe Oracle Table}
 \description{
   Show the column names of an Oracle table (or view) and various column
-  features, not unlike the Oracle SQL*Plus \command{DESC} command. Also
-  show the number of rows when the table was last analyzed.
+  properties, not unlike the Oracle SQL*Plus \command{DESC} command.
+  Also show the number of rows when the table was last analyzed.
 }
 \usage{
 desc(table, tolower=TRUE, dots=FALSE)
@@ -31,7 +31,6 @@ desc(table, tolower=TRUE, dots=FALSE)
   (when the table was last analyzed). These attributes are not available
   for all Oracle tables.
 }
-\author{Arni Magnusson}
 \note{
   See the Oracle manuals for details about type, length, precision,
   scale, and nulls.

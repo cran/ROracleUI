@@ -31,7 +31,6 @@ to_char(colname, fmt="YYYY-MM-DD HH24:MI:SS", nls=NULL, obj=FALSE)
   returns
   \preformatted{  "to_char(day,'YYYY-MM-DD HH24:MI:SS') AS day"}
 }
-\author{Arni Magnusson}
 \note{
   By default, the \pkg{ROracle} package imports Oracle \samp{date}
   columns into \R as strings. The format of these strings depends on the

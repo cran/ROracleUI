@@ -26,7 +26,6 @@ views(owner="\%", view="\%", tolower=TRUE)
   \item{owner}{owner name.}
   \item{view}{view name.}
 }
-\author{Arni Magnusson}
 \note{
   The output is a subset of \samp{ALL_VIEWS} in Oracle, with simplified
   column names:

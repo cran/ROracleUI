@@ -27,7 +27,7 @@
     \code{\link{as.POSIXct.data.frame}} \tab coerce to POSIX time
   }
 }
-\author{Arni Magnusson}
+\author{Arni Magnusson.}
 \references{
   The official Oracle manuals are available at
   \url{http://www.oracle.com/technology/documentation/index.html}.

@@ -4,7 +4,7 @@
 \description{Run SQL query returning an \R data frame.}
 \usage{
 sql(query, tolower=TRUE, dots=TRUE, posix=TRUE, useBytes=TRUE,
-    warnings=FALSE, debug=FALSE, ...)
+    warnings=FALSE, debug=FALSE, \dots)
 }
 \arguments{
   \item{query}{string containing SQL query or the name of a file
@@ -46,7 +46,6 @@ sql(query, tolower=TRUE, dots=TRUE, posix=TRUE, useBytes=TRUE,
   Data frame containing the imported data, or a simple string if
   \code{debug=TRUE}.
 }
-\author{Arni Magnusson}
 \seealso{
   \code{sql} is to Oracle tables as \code{\link{read.table}} is to text
   files.

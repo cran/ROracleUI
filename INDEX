@@ -1,6 +1,0 @@
-as.POSIXct.data.frame   Coerce data frame columns to POSIX time
-desc                    Describe Oracle table
-sql                     Import data from Oracle
-tables                  List Oracle tables
-to_char                 Format Oracle time within an SQL query
-views                   List Oracle views

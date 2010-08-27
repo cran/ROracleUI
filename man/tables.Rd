@@ -31,7 +31,6 @@ tables(owner="\%", table="\%", space="\%", tolower=TRUE)
   \item{rows}{number of rows when the table was last analyzed.}
   \item{analyzed}{when the table was last analyzed.}
 }
-\author{Arni Magnusson}
 \note{
   The output is a subset of \samp{ALL_TABLES} in Oracle, with simplified
   column names:
