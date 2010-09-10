@@ -1,19 +1,18 @@
-sql <- function(query, tolower=TRUE, dots=TRUE, posix=TRUE, useBytes=TRUE, warnings=FALSE, debug=FALSE, ...)
+sql <- function(query, tolower=TRUE, dots=TRUE, posix=TRUE, useBytes=TRUE, stringsAsFactors=FALSE, warn=-1, debug=FALSE,
+                ...)
 {
+  ## 1  Handle warnings and options
   on.exit(suppressWarnings(dbUnloadDriver(dbDriver("Oracle"))))
-
-  ## 1  Turn off warnings temporarily, if requested
-  if(!warnings)
-  {
-    owarn <- options(warn=-1)
-    on.exit(options(owarn), add=TRUE)
-  }
+  osaf <- options(stringsAsFactors=stringsAsFactors)
+  on.exit(options(osaf), add=TRUE)
+  owarn <- options(warn=warn)
+  on.exit(options(owarn), add=TRUE)
 
   ## 2  Prepare query
   if(file.exists(query))
   {
-    query <- paste(readLines(query,...), collapse=" ")      # read file into one string...
-    query <- gsub("[ \t]+", " ", query, useBytes=useBytes)  # ...with single spaces
+    query <- paste(readLines(query,...), collapse=" ")      # read file into one string
+    query <- gsub("[ \t]+", " ", query, useBytes=useBytes)  # with single spaces
   }
   query <- gsub(";", "", query, useBytes=useBytes)  # ROracle chokes on semicolons
   if(debug)

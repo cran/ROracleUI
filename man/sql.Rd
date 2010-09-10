@@ -4,7 +4,7 @@
 \description{Run SQL query returning an \R data frame.}
 \usage{
 sql(query, tolower=TRUE, dots=TRUE, posix=TRUE, useBytes=TRUE,
-    warnings=FALSE, debug=FALSE, \dots)
+    stringsAsFactors=FALSE, warn=-1, debug=FALSE, \dots)
 }
 \arguments{
   \item{query}{string containing SQL query or the name of a file
@@ -15,8 +15,9 @@ sql(query, tolower=TRUE, dots=TRUE, posix=TRUE, useBytes=TRUE,
   \item{posix}{whether to try coercing Oracle \samp{date} columns to
     class \code{POSIXct}.}
   \item{useBytes}{passed to \code{gsub}.}
-  \item{warnings}{whether to show warnings, e.g. when Oracle columns are
-    of type \samp{LONG}.}
+  \item{stringsAsFactors}{whether to convert string columns to factors.}
+  \item{warn}{sets the handling of warning messages, e.g. when Oracle
+    columns are of type \samp{LONG}.}
   \item{debug}{whether to return the finalized SQL query string, instead
     of submitting it to Oracle.}
   \item{\dots}{passed to \code{readLines}.}
@@ -38,6 +39,14 @@ sql(query, tolower=TRUE, dots=TRUE, posix=TRUE, useBytes=TRUE,
   contains non-ASCII characters, \code{\link{gsub}} and
   \code{\link{readLines}} (called by \code{sql}) may convert the query
   to a different encoding than the Oracle database expects.
+
+  The arguments \code{stringsAsFactors} and \code{warn} correspond to
+  \code{\link{options}} with the same names, but the session options are
+  not used as default values. Therefore, it is necessary to pass
+  \code{stringsAsFactors=TRUE} directly to \code{sql} in order to import
+  string columns as \code{factor}. This option-overriding is designed to
+  make results more predictable and facilitate collaboration between
+  database users.
 
   \code{debug=TRUE} is helpful for solving problems, and also to save
   complex queries (possibly to a file) for later use.
@@ -80,7 +89,7 @@ summary(x)  # date column is of class "character"
 
 # Format date column inside query and coerce automatically to POSIX time class:
 y <- sql(paste("SELECT username,", to_char(created), "FROM all_users"))
-summary(y)  # date column is of class "POSIXct"
+summary(y)  # date column is of class POSIXt/POSIXct
 
 }
 }
