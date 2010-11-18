@@ -1,10 +1,10 @@
-desc <- function(table, tolower=TRUE, dots=FALSE)
+desc <- function(table, tolower=TRUE, dots=FALSE, ...)
 {
   on.exit(suppressWarnings(dbUnloadDriver(dbDriver("Oracle"))))
 
   ## 1  Fetch table description
   query <- paste("SELECT * FROM", table)
-  output <- dbColumnInfo(dbSendQuery(dbConnect("Oracle"), query))
+  output <- dbColumnInfo(dbSendQuery(dbConnect("Oracle",...), query))
 
   ## 2  Handle row and column names
   attr(output,"row.names") <- seq_len(nrow(output))
@@ -21,9 +21,9 @@ desc <- function(table, tolower=TRUE, dots=FALSE)
   else
     where <- paste("WHERE owner='", splitname[1], "' AND table_name='", splitname[2], "'", sep="")
   query <- paste(select.from, where)
-  rows.date <- dbGetQuery(dbConnect("Oracle"), query)
-  attr(output, "rows") <- rows.date$NUM_ROWS
-  attr(output, "analyzed") <- rows.date$LAST_ANALYZED
+  rows.date <- dbGetQuery(dbConnect("Oracle",...), query)
+  attr(output, "rows") <- if(nrow(rows.date)==1) rows.date$NUM_ROWS else as.numeric(NA)
+  attr(output, "analyzed") <- if(nrow(rows.date)==1) rows.date$LAST_ANALYZED else as.character(NA)
 
   ## 4  Show on screen
   cat("\n")

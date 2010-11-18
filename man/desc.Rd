@@ -7,7 +7,7 @@
   Also show the number of rows when the table was last analyzed.
 }
 \usage{
-desc(table, tolower=TRUE, dots=FALSE)
+desc(table, tolower=TRUE, dots=FALSE, \dots)
 }
 \arguments{
   \item{table}{Oracle table name, often in the \samp{owner.table}
@@ -15,6 +15,15 @@ desc(table, tolower=TRUE, dots=FALSE)
   \item{tolower}{whether output table strings should be lowercased.}
   \item{dots}{whether underscores in column names should be replaced
     with dots, converting \samp{col_name} to \samp{col.name}.}
+  \item{\dots}{passed to \code{dbConnect}.}
+}
+\details{
+  The \code{\dots} argument can be used to set \code{username},
+  \code{password}, and/or \code{dbname} (see
+  \code{\link{oraNewConnection}}). Abbrevations like \code{user} and
+  \samp{pass} are allowed. The default database name is determined by
+  the environment variable \env{ORACLE_SID}, which can be redefined
+  within an \R session using \code{Sys.setenv(ORACLE_SID="foo")}.
 }
 \value{
   A data frame with named rows and the following columns:
@@ -29,7 +38,8 @@ desc(table, tolower=TRUE, dots=FALSE)
   Furthermore, the data frame contains two attributes: \code{rows} (the
   number of rows when the table was last analyzed) and \code{analyzed}
   (when the table was last analyzed). These attributes are not available
-  for all Oracle tables.
+  for all Oracle tables, but are more likely to be available when the
+  main argument \code{table} has the full owner.table format.
 }
 \note{
   See the Oracle manuals for details about type, length, precision,

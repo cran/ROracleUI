@@ -5,13 +5,14 @@
   List all views in the database belonging to a specific owner.
 }
 \usage{
-views(owner="\%", view="\%", tolower=TRUE)
+views(owner="\%", view="\%", tolower=TRUE, \dots)
 }
 \arguments{
   \item{owner}{owner name.}
   \item{view}{view name.}
   \item{tolower}{whether \code{owner} and \code{view} output entries
     should be lowercased.}
+  \item{\dots}{passed to \code{dbConnect}.}
 }
 \details{
   The arguments \code{owner} and \code{view}, are passed as patterns
@@ -21,6 +22,13 @@ views(owner="\%", view="\%", tolower=TRUE)
   \code{"\\\\_"}.
 
   In other words, the default value \code{"\%"} matches all strings.
+
+  The \code{\dots} argument can be used to set \code{username},
+  \code{password}, and/or \code{dbname} (see
+  \code{\link{oraNewConnection}}). Abbrevations like \code{user} and
+  \samp{pass} are allowed. The default database name is determined by
+  the environment variable \env{ORACLE_SID}, which can be redefined
+  within an \R session using \code{Sys.setenv(ORACLE_SID="foo")}.
 }
 \value{Data frame containing two columns:
   \item{owner}{owner name.}

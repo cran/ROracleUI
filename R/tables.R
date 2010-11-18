@@ -1,4 +1,4 @@
-tables <- function(owner="%", table="%", space="%", tolower=TRUE)
+tables <- function(owner="%", table="%", space="%", tolower=TRUE, ...)
 {
   ## 1  Prepare query
   select.from <- "SELECT owner,table_name,tablespace_name,num_rows,last_analyzed FROM all_tables"
@@ -8,7 +8,7 @@ tables <- function(owner="%", table="%", space="%", tolower=TRUE)
   query <- paste(select.from, where)
 
   ## 2  Run query
-  output <- sql(query)
+  output <- sql(query, ...)
 
   ## 3  Format output
   names(output) <- c("owner", "table", "space", "rows", "analyzed")

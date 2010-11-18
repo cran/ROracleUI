@@ -6,14 +6,15 @@
   space.
 }
 \usage{
-tables(owner="\%", table="\%", space="\%", tolower=TRUE)
+tables(owner="\%", table="\%", space="\%", tolower=TRUE, \dots)
 }
 \arguments{
   \item{owner}{owner name.}
   \item{table}{table name.}
   \item{space}{table space name.}
   \item{tolower}{whether \code{owner}, \code{table}, and \code{space}
-    output entries should be lowercased.}
+    output entries should be lowercased}.
+  \item{\dots}{passed to \code{dbConnect}.}
 }
 \details{
   The arguments \code{owner}, \code{table}, and \code{space} are passed
@@ -23,6 +24,13 @@ tables(owner="\%", table="\%", space="\%", tolower=TRUE)
   \code{"\\\\\%"} and \code{"\\\\_"}.
 
   In other words, the default value \code{"\%"} matches all strings.
+
+  The \code{\dots} argument can be used to set \code{username},
+  \code{password}, and/or \code{dbname} (see
+  \code{\link{oraNewConnection}}). Abbrevations like \code{user} and
+  \samp{pass} are allowed. The default database name is determined by
+  the environment variable \env{ORACLE_SID}, which can be redefined
+  within an \R session using \code{Sys.setenv(ORACLE_SID="foo")}.
 }
 \value{Data frame containing five columns:
   \item{owner}{owner name.}

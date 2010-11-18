@@ -1,4 +1,4 @@
-views <- function(owner="%", view="%", tolower=TRUE)
+views <- function(owner="%", view="%", tolower=TRUE, ...)
 {
   ## 1  Prepare query
   select.from <- "SELECT owner,view_name FROM all_views"
@@ -7,7 +7,7 @@ views <- function(owner="%", view="%", tolower=TRUE)
   query <- paste(select.from, where)
 
   ## 2  Run query
-  output <- sql(query)
+  output <- sql(query, ...)
 
   ## 3  Format output
   names(output) <- c("owner", "view")

@@ -1,5 +1,5 @@
-sql <- function(query, tolower=TRUE, dots=TRUE, posix=TRUE, useBytes=TRUE, stringsAsFactors=FALSE, warn=-1, debug=FALSE,
-                ...)
+sql <- function(query, tolower=TRUE, dots=TRUE, posix=TRUE, encoding="unknown", useBytes=TRUE, stringsAsFactors=FALSE,
+                warn=-1, debug=FALSE, ...)
 {
   ## 1  Handle warnings and options
   on.exit(suppressWarnings(dbUnloadDriver(dbDriver("Oracle"))))
@@ -11,15 +11,15 @@ sql <- function(query, tolower=TRUE, dots=TRUE, posix=TRUE, useBytes=TRUE, strin
   ## 2  Prepare query
   if(file.exists(query))
   {
-    query <- paste(readLines(query,...), collapse=" ")      # read file into one string
-    query <- gsub("[ \t]+", " ", query, useBytes=useBytes)  # with single spaces
+    query <- paste(readLines(query,encoding=encoding), collapse=" ")  # read file into one string
+    query <- gsub("[ \t]+", " ", query, useBytes=useBytes)            # with single spaces
   }
   query <- gsub(";", "", query, useBytes=useBytes)  # ROracle chokes on semicolons
   if(debug)
     return(query)
 
   ## 3  Run query
-  output <- dbGetQuery(dbConnect("Oracle"), query)
+  output <- dbGetQuery(dbConnect("Oracle",...), query)
 
   ## 4  Format output
   attr(output,"row.names") <- seq_len(nrow(output))  # reduce storage size of row names

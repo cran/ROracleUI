@@ -3,8 +3,8 @@
 \title{Import Data from Oracle}
 \description{Run SQL query returning an \R data frame.}
 \usage{
-sql(query, tolower=TRUE, dots=TRUE, posix=TRUE, useBytes=TRUE,
-    stringsAsFactors=FALSE, warn=-1, debug=FALSE, \dots)
+sql(query, tolower=TRUE, dots=TRUE, posix=TRUE, encoding="unknown",
+    useBytes=TRUE, stringsAsFactors=FALSE, warn=-1, debug=FALSE, \dots)
 }
 \arguments{
   \item{query}{string containing SQL query or the name of a file
@@ -14,13 +14,14 @@ sql(query, tolower=TRUE, dots=TRUE, posix=TRUE, useBytes=TRUE,
     with dots, converting \samp{col_name} to \samp{col.name}.}
   \item{posix}{whether to try coercing Oracle \samp{date} columns to
     class \code{POSIXct}.}
+  \item{encoding}{passed to \code{readLines}.}
   \item{useBytes}{passed to \code{gsub}.}
   \item{stringsAsFactors}{whether to convert string columns to factors.}
   \item{warn}{sets the handling of warning messages, e.g. when Oracle
     columns are of type \samp{LONG}.}
   \item{debug}{whether to return the finalized SQL query string, instead
     of submitting it to Oracle.}
-  \item{\dots}{passed to \code{readLines}.}
+  \item{\dots}{passed to \code{dbConnect}.}
 }
 \details{
   The \code{query} is not required to end with a semicolon. In fact,
@@ -34,11 +35,11 @@ sql(query, tolower=TRUE, dots=TRUE, posix=TRUE, useBytes=TRUE,
   time format, the \code{\link{to_char}} shorthand notation can be
   helpful.
 
-  The arguments \code{useBytes} and \code{\dots} enable the user to
+  The arguments \code{encoding} and \code{useBytes} enable the user to
   solve character encoding problems within the SQL query. If the query
-  contains non-ASCII characters, \code{\link{gsub}} and
-  \code{\link{readLines}} (called by \code{sql}) may convert the query
-  to a different encoding than the Oracle database expects.
+  contains non-ASCII characters, \code{\link{readLines}} and
+  \code{\link{gsub}} (called by \code{sql}) may convert the query to a
+  different encoding than the Oracle database expects.
 
   The arguments \code{stringsAsFactors} and \code{warn} correspond to
   \code{\link{options}} with the same names, but the session options are
@@ -50,6 +51,13 @@ sql(query, tolower=TRUE, dots=TRUE, posix=TRUE, useBytes=TRUE,
 
   \code{debug=TRUE} is helpful for solving problems, and also to save
   complex queries (possibly to a file) for later use.
+
+  The \code{\dots} argument can be used to set \code{username},
+  \code{password}, and/or \code{dbname} (see
+  \code{\link{oraNewConnection}}). Abbrevations like \code{user} and
+  \samp{pass} are allowed. The default database name is determined by
+  the environment variable \env{ORACLE_SID}, which can be redefined
+  within an \R session using \code{Sys.setenv(ORACLE_SID="foo")}.
 }
 \value{
   Data frame containing the imported data, or a simple string if
@@ -71,8 +79,14 @@ sql(query, tolower=TRUE, dots=TRUE, posix=TRUE, useBytes=TRUE,
 
 ## 1 Basic queries
 
-# Pass query as a string
+# Pass query as a simple string
 sql("SELECT username,created FROM all_users WHERE rownum<=10")
+
+# Pass query as a multiline string
+sql("SELECT extract(year from created) AS year,
+            count(username) AS users
+       FROM all_users
+   GROUP BY extract(year from created)")
 
 # Pass query as a file
 write(c("SELECT username, created",
@@ -90,6 +104,11 @@ summary(x)  # date column is of class "character"
 # Format date column inside query and coerce automatically to POSIX time class:
 y <- sql(paste("SELECT username,", to_char(created), "FROM all_users"))
 summary(y)  # date column is of class POSIXt/POSIXct
+
+
+## 3 Review query string, before sending it to Oracle
+
+sql(paste("SELECT username,", to_char(created), "FROM all_users"), debug=TRUE)
 
 }
 }
