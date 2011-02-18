@@ -10,11 +10,9 @@ sql <- function(query, tolower=TRUE, dots=TRUE, posix=TRUE, encoding="unknown", 
 
   ## 2  Prepare query
   if(file.exists(query))
-  {
     query <- paste(readLines(query,encoding=encoding), collapse=" ")  # read file into one string
-    query <- gsub("[ \t]+", " ", query, useBytes=useBytes)            # with single spaces
-  }
-  query <- gsub(";", "", query, useBytes=useBytes)  # ROracle chokes on semicolons
+  query <- gsub("[ \f\n\r\t\v\240]+", " ", query, useBytes=useBytes)  # single spaces
+  query <- gsub(";", "", query, useBytes=useBytes)                    # ROracle chokes on semicolons
   if(debug)
     return(query)
 
