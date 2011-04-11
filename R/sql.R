@@ -18,6 +18,8 @@ sql <- function(query, tolower=TRUE, dots=TRUE, posix=TRUE, encoding="unknown", 
 
   ## 3  Run query
   output <- dbGetQuery(dbConnect("Oracle",...), query)
+  if(class(output) != "data.frame")
+    return(output)
 
   ## 4  Format output
   attr(output,"row.names") <- seq_len(nrow(output))  # reduce storage size of row names
